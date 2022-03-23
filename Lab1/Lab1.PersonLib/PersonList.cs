@@ -88,7 +88,7 @@ public class PersonList
     {
         Capacity *= _capacityFactor;
         
-        Person[] newData = new Person[Capacity];
+        var newData = new Person[Capacity];
         Array.Copy(_data, newData, Size);
         _data = newData;
     }
