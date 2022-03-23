@@ -42,6 +42,38 @@ public class Person
         set => _sex = value; 
     }
 
+    public override string ToString()
+    {
+        return $"{FirstName} {SecondName}, {Age} y/o, {Sex.ToString()}";
+    }
+
+    public static Person GetRandPerson()
+    {
+        var firstNames = new string[]
+        {
+            "Joss", "Casey", "Jackie", "Jodie",
+            "Justice", "Rene", "Frankie", "Robbie",
+            "Devan", "Stevie", "Gerry", "Jaylin",
+            "Tracy", "Kris", "Tommie", "Jessie"
+        };
+
+        var secondNames = new string[]
+        {
+            "Adams", "Wilson", "Burton", "Harris",
+            "Stevens", "Robinson", "Lewis", "Walker",
+            "Payne", "Baker", "Owen", "Holmes",
+            "Chapman", "Webb", "Allen", "Jones"
+        };        
+
+        var random = new Random();
+        string firstName = firstNames[random.Next(firstNames.Count())];
+        string secondName = secondNames[random.Next(secondNames.Count())];
+        ushort age = (ushort)random.Next(1, MaxAge);
+        PersonSex sex = (PersonSex)random.Next(1, 3);
+
+        return new Person(firstName, secondName, age, sex);
+    }
+
     public const ushort MaxAge = 120;
 
     private string _firstName = String.Empty;
