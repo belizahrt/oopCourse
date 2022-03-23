@@ -1,4 +1,4 @@
-namespace Lib1.PersonLib;
+namespace Lab1.PersonLib;
 
 public enum PersonSex
 {

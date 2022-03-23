@@ -1,5 +1,4 @@
-namespace Lib1.PersonLib;
-
+namespace Lab1.PersonLib;
 public class Person
 {
     public Person(string firstName, string secondName, 
