@@ -46,7 +46,7 @@ public class PersonList
             throw new IndexOutOfRangeException();
         }
 
-        for (int i = index; i < Size; ++i)
+        for (int i = index; i < Size - 1; ++i)
         {
             _data[i] = _data[i + 1];
         }
