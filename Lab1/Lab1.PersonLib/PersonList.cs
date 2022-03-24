@@ -7,14 +7,19 @@ public class PersonList
         Capacity = _defaultCapacity;
     }
 
-    public PersonList(uint capacity)
+    public PersonList(int capacity)
     {
+        if (capacity < 0)
+        {
+            throw new ArgumentException();
+        }
+
         _data = new Person[capacity];
         Capacity = capacity;
     }   
 
-    public uint Size { get; private set; }
-    public uint Capacity { get; private set; }
+    public int Size { get; private set; }
+    public int Capacity { get; private set; }
 
     public void Add(Person person)
     {
@@ -34,14 +39,14 @@ public class PersonList
         return last;
     }
 
-    public void Erase(uint index)
+    public void Erase(int index)
     {
-        if (index >= Size)
+        if (index < 0 || index >= Size)
         {
             throw new IndexOutOfRangeException();
         }
 
-        for (uint i = index; i < Size; ++i)
+        for (int i = index; i < Size; ++i)
         {
             _data[i] = _data[i + 1];
         }
@@ -50,9 +55,9 @@ public class PersonList
         --Size;
     }
 
-    public Person At(uint index)
+    public Person At(int index)
     {
-        if (index >= Size)
+        if (index < 0 || index >= Size)
         {
             throw new IndexOutOfRangeException();
         }
@@ -62,7 +67,7 @@ public class PersonList
 
     public int Search(Person person, int begin = 0)
     {
-        if (begin >= Size)
+        if (begin < 0 || begin >= Size)
         {
             throw new IndexOutOfRangeException();
         }
@@ -93,7 +98,7 @@ public class PersonList
         _data = newData;
     }
 
-    private const uint _defaultCapacity = 10;
-    private const uint _capacityFactor = 2;
+    private const int _defaultCapacity = 10;
+    private const int _capacityFactor = 2;
     private Person[] _data;
 }
