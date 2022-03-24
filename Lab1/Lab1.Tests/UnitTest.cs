@@ -23,7 +23,7 @@ public class PersonListTest
     public void ExpandData()
     {
         const int personsCount = 10;
-        const uint capacity = 10;
+        const int capacity = 10;
         var persons = MakePersonList(personsCount, capacity);
         persons.Add(Person.GetRandPerson());
 
@@ -67,10 +67,10 @@ public class PersonListTest
     [TestCase(100, 0)]
     [TestCase(100, 49)]
     [TestCase(100, 99)]
-    public void ErasePerson(uint listSize, uint index)
+    public void ErasePerson(int listSize, int index)
     {
         var persons = new PersonList(listSize);
-        var personsGoal = new List<Person>((int)listSize);
+        var personsGoal = new List<Person>(listSize);
         for (int i = 0; i < listSize; ++i)
         {
             var person = Person.GetRandPerson();
@@ -79,13 +79,13 @@ public class PersonListTest
         }
         
         persons.Erase(index);
-        personsGoal.RemoveAt((int)index);
+        personsGoal.RemoveAt(index);
 
         Assert.AreEqual(persons.Size, personsGoal.Count);
 
         for (int i = 0; i < personsGoal.Count; ++i)
         {
-            if (!personsGoal[i].Equals(persons.At((uint)i)))
+            if (!personsGoal[i].Equals(persons.At(i)))
             {
                 Assert.Fail();
             }
@@ -110,7 +110,7 @@ public class PersonListTest
         Assert.AreEqual(persons.Search(personNotIn), -1);
     }
 
-    private PersonList MakePersonList(int personsCount, uint capacity=10)
+    private PersonList MakePersonList(int personsCount, int capacity=10)
     {
         var persons = new PersonList(capacity);
 
