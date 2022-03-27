@@ -1,12 +1,23 @@
 ﻿namespace Lab1.PersonLib;
+
+/// <summary>
+/// Person list class
+/// </summary>
 public class PersonList
 {   
+    /// <summary>
+    /// Person list constructor
+    /// </summary>
     public PersonList()
     {
         _data = new Person[_defaultCapacity];
         Capacity = _defaultCapacity;
     }
 
+    /// <summary>
+    /// Constructor specifies storage capcity
+    /// </summary>
+    /// <param name="capacity">Capacity</param>
     public PersonList(int capacity)
     {
         if (capacity < 0)
@@ -18,9 +29,22 @@ public class PersonList
         Capacity = capacity;
     }   
 
+    /// <summary>
+    /// Count of elements
+    /// </summary>
+    /// <value></value>
     public int Size { get; private set; }
+
+    /// <summary>
+    /// Storage capacity
+    /// </summary>
+    /// <value></value>
     public int Capacity { get; private set; }
 
+    /// <summary>
+    /// Add element to list
+    /// </summary>
+    /// <param name="person">Person</param>
     public void Add(Person person)
     {
         if (Size == Capacity)
@@ -32,6 +56,10 @@ public class PersonList
         ++Size;
     }
 
+    /// <summary>
+    /// Get and erase last list element
+    /// </summary>
+    /// <returns>Last element</returns>
     public Person Pop()
     {
         var last = _data[Size - 1];
@@ -39,6 +67,10 @@ public class PersonList
         return last;
     }
 
+    /// <summary>
+    /// Erase list element at index
+    /// </summary>
+    /// <param name="index">Index of element</param>
     public void Erase(int index)
     {
         if (index < 0 || index >= Size)
@@ -55,6 +87,11 @@ public class PersonList
         --Size;
     }
 
+    /// <summary>
+    /// Retrieves person at index
+    /// </summary>
+    /// <param name="index">Index</param>
+    /// <returns>Person at index</returns>
     public Person At(int index)
     {
         if (index < 0 || index >= Size)
@@ -65,6 +102,12 @@ public class PersonList
         return _data[index];
     }
 
+    /// <summary>
+    /// Searching for person
+    /// </summary>
+    /// <param name="person">Person</param>
+    /// <param name="begin">Search start index</param>
+    /// <returns>Person index or -1</returns>
     public int Search(Person person, int begin = 0)
     {
         if (begin < 0 || begin >= Size)
@@ -83,12 +126,18 @@ public class PersonList
         return -1;
     }
 
+    /// <summary>
+    /// Erase all list elements
+    /// </summary>
     public void Clear()
     {
         _data = new Person[Capacity];
         Size = 0;
     }
 
+    /// <summary>
+    /// Expand data storage
+    /// </summary>
     private void ExpandData()
     {
         Capacity *= _capacityFactor;
@@ -98,7 +147,18 @@ public class PersonList
         _data = newData;
     }
 
+    /// <summary>
+    /// Default capacity size
+    /// </summary>
     private const int _defaultCapacity = 10;
+
+    /// <summary>
+    /// Multiplier of capacity
+    /// </summary>
     private const int _capacityFactor = 2;
+
+    /// <summary>
+    /// Data storage
+    /// </summary>
     private Person[] _data;
 }
