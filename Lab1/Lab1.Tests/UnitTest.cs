@@ -6,9 +6,40 @@ using Lab1.PersonLib;
 
 namespace Lab1.Tests;
 
+/// <summary>
+/// Unit test class for PersonList class
+/// </summary>
 [TestFixture]
 public class PersonListTest
 {
+    /// <summary>
+    /// Complex test with 2 lists operations
+    /// </summary>
+    [Test]
+    public void ComplexTest()
+    {
+        const int personsCount = 3;
+        var persons1 = MakePersonList(personsCount);
+        var persons2 = MakePersonList(personsCount);
+
+        persons1.Add(Person.GetRandPerson());
+
+        Person personForCopy = persons1.At(1);
+        persons2.Add(personForCopy);
+        Assert.AreEqual(personForCopy, persons2.At(persons2.Size - 1), 
+            "Persons are not the same");
+
+        persons1.Erase(1);
+        Assert.AreEqual(persons1.Search(personForCopy), -1);
+        Assert.AreNotEqual(persons2.Search(personForCopy), -1);
+
+        persons2.Clear();
+        Assert.AreEqual(persons2.Size, 0);
+    }
+
+    /// <summary>
+    /// Add person test
+    /// </summary>
     [Test]
     public void AddPerson()
     {
@@ -19,6 +50,9 @@ public class PersonListTest
         Assert.AreEqual(persons.Size, personsCount + 1);
     }
 
+    /// <summary>
+    /// Expand data storage test
+    /// </summary>
     [Test]
     public void ExpandData()
     {
@@ -30,6 +64,9 @@ public class PersonListTest
         Assert.AreNotEqual(persons.Capacity, capacity);
     }
 
+    /// <summary>
+    /// Get person with At method test
+    /// </summary>
     [Test]
     public void GetPerson()
     {
@@ -40,6 +77,9 @@ public class PersonListTest
         Assert.AreEqual(persons.At(0), person);
     }
 
+    /// <summary>
+    /// Clear person list test
+    /// </summary>
     [Test]
     public void ClearPersons()
     {
@@ -50,6 +90,9 @@ public class PersonListTest
         Assert.AreEqual(persons.Size, 0);
     }
 
+    /// <summary>
+    /// Pop person from list test
+    /// </summary>
     [Test]
     public void PopPerson()
     {
@@ -64,6 +107,11 @@ public class PersonListTest
         Assert.AreEqual(persons.Size, personsCount);
     }
 
+    /// <summary>
+    /// Test cases for erase person from list
+    /// </summary>
+    /// <param name="listSize">Persons in list count</param>
+    /// <param name="index">Index for erase</param>
     [TestCase(100, 0)]
     [TestCase(100, 49)]
     [TestCase(100, 99)]
@@ -92,6 +140,9 @@ public class PersonListTest
         }      
     }
 
+    /// <summary>
+    /// Search person in list test
+    /// </summary>
     [Test]
     public void SearchPerson()
     {
@@ -110,6 +161,12 @@ public class PersonListTest
         Assert.AreEqual(persons.Search(personNotIn), -1);
     }
 
+    /// <summary>
+    /// Make person list helper function
+    /// </summary>
+    /// <param name="personsCount">Persons count</param>
+    /// <param name="capacity">List capacity</param>
+    /// <returns></returns>
     private PersonList MakePersonList(int personsCount, int capacity=10)
     {
         var persons = new PersonList(capacity);
