@@ -27,7 +27,7 @@ public class Person
         get => _age; 
         set
         { 
-            if (value == 0 || value > MaxAge)
+            if (value > MaxAge)
             {
                 throw new ArgumentException("Bad age");
             }
