@@ -1,5 +1,8 @@
 namespace Lab1.PersonLib;
 
+/// <summary>
+/// Person sex options
+/// </summary>
 public enum PersonSex
 {
     Male = 1,
