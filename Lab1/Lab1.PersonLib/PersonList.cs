@@ -51,7 +51,7 @@ public class PersonList
         {
             ExpandData();
         }
-
+        
         _data[Size] = person;
         ++Size;
     }
