@@ -6,7 +6,15 @@ namespace Lab1.PersonLib;
 public class Person
 {
     /// <summary>
-    /// Constructor for Person class
+    /// Constructor by default
+    /// </summary>
+    public Person()
+    {
+
+    }
+
+    /// <summary>
+    /// Constructor specifies first name, second name, age, sex
     /// </summary>
     /// <param name="firstName">Person's first name</param>
     /// <param name="secondName">Person's second name</param>
