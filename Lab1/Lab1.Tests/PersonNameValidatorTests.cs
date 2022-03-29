@@ -40,6 +40,8 @@ public class PersonNameValidatorTest
     [TestCase("Юриi", "Kovalenko", ExpectedResult=_invalidLocale)]
     [TestCase("Юрий28", "Kovalenko", ExpectedResult=_invalidLocale)]
     [TestCase("Юрий", "Kovalenko - test", ExpectedResult=_invalidLocale)]
+    [TestCase("Юрий", "", ExpectedResult = _invalidLocale)]
+    [TestCase("Юрий", "     ", ExpectedResult = _invalidLocale)]
     [TestCase("YuRi", "KovaLenko", ExpectedResult=_invalidShape)]
     [TestCase("Юрий", "коваленко", ExpectedResult=_invalidShape)]
     public PersonNameValidState ValidState(string firstName,
