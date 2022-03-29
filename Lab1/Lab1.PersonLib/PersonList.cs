@@ -64,7 +64,7 @@ public class PersonList
     {
         var last = _data[Size - 1];
         Erase(Size - 1);
-        return last;
+        return last ?? new Person();
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public class PersonList
             throw new IndexOutOfRangeException();
         }
 
-        return _data[index];
+        return _data[index] ?? new Person();
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ public class PersonList
 
         for (int i = begin; i < Size; ++i)
         {
-            if (_data[i].Equals(person))
+            if (At(i).Equals(person))
             {
                 return i;
             }
@@ -160,5 +160,5 @@ public class PersonList
     /// <summary>
     /// Data storage
     /// </summary>
-    private Person[] _data;
+    private Person?[] _data;
 }
