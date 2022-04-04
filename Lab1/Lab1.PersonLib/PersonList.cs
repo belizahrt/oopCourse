@@ -140,7 +140,7 @@ public class PersonList
     /// </summary>
     private void ExpandData()
     {
-        Capacity *= _capacityFactor;
+        Capacity *= _growthFactor;
         
         var newData = new Person[Capacity];
         Array.Copy(_data, newData, Size);
@@ -156,7 +156,7 @@ public class PersonList
     /// <summary>
     /// Multiplier of capacity
     /// </summary>
-    private const int _capacityFactor = 2;
+    private const int _growthFactor = 2;
 
     /// <summary>
     /// Data storage

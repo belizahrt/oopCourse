@@ -16,11 +16,12 @@ public class PersonNameValidator
     {
     }
 
+    /// //TODO: XML
     /// <summary>
     /// Constructor specifies 1st name and 2nd name
     /// </summary>
-    /// <param name="name"></param>
-    /// //TODO: XML
+    /// <param name="firstName">First name</param>
+    /// <param name="secondName">Second name</param>
     public PersonNameValidator(string firstName, string secondName)
     {
         FirstName = firstName;
@@ -175,13 +176,13 @@ public class PersonNameValidator
     {
         //TODO: RSDN
         // upper case unicode sets
-        var LocaleRanges = new Dictionary<Locale, (uint, uint)>
+        var localeRanges = new Dictionary<Locale, (uint, uint)>
         {
             { Locale.English, (65, 122) },
             { Locale.Russian, (1040, 1103) }
         };
 
-        foreach (var locale in LocaleRanges)
+        foreach (var locale in localeRanges)
         {
             if (letter >= locale.Value.Item1
                 && letter <= locale.Value.Item2)
