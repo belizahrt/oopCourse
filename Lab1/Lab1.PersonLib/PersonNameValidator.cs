@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Lab1.PersonLib;
 
 /// <summary>
@@ -16,6 +20,7 @@ public class PersonNameValidator
     /// Constructor specifies 1st name and 2nd name
     /// </summary>
     /// <param name="name"></param>
+    /// //TODO: XML
     public PersonNameValidator(string firstName, string secondName)
     {
         FirstName = firstName;
@@ -132,7 +137,7 @@ public class PersonNameValidator
     /// </summary>
     /// <param name="text"></param>
     /// <returns>Locale</returns>
-    static private Locale GetTextLocale(string text)
+    private static Locale GetTextLocale(string text)
     {
         if (string.IsNullOrEmpty(text))
         {
@@ -166,8 +171,9 @@ public class PersonNameValidator
     /// </summary>
     /// <param name="letter">Letter</param>
     /// <returns>Locale of letter</returns>
-    static private Locale GetLetterLocale(char letter)
+    private static Locale GetLetterLocale(char letter)
     {
+        //TODO: RSDN
         // upper case unicode sets
         var LocaleRanges = new Dictionary<Locale, (uint, uint)>
         {
@@ -192,7 +198,7 @@ public class PersonNameValidator
     /// </summary>
     /// <param name="name"></param>
     /// <returns>Is valid</returns>
-    static private bool IsValidNameShape(string name)
+    private static bool IsValidNameShape(string name)
     {
         var words = name.Split();
         int wordsCount  = words.Count();
@@ -221,6 +227,7 @@ public class PersonNameValidator
 
         return true;
     }
+
 
     public const int MaxWordsInName = 2;
 
