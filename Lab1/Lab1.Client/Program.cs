@@ -19,7 +19,7 @@ public class Program
     static int Main()
     { 
         //TODO: RSDN
-        var CommandsMap = MakeCommandsMap();
+        var commandsMap = MakeCommandsMap();
 
         PrintTitle();
 
@@ -35,10 +35,10 @@ public class Program
                 continue;
             }
 
-            if (CommandsMap.ContainsKey(command))
+            if (commandsMap.ContainsKey(command))
             {
                 persons = CommandFuncWrapper<PersonList>(
-                    CommandsMap[command], persons);
+                    commandsMap[command], persons);
             }
             else
             {
