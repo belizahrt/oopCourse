@@ -7,5 +7,6 @@ public enum PersonNameValidState
 {
     InvalidLocale,
     InvalidShape,
+    InvalidCharCount,
     Acceptable
 }

@@ -7,93 +7,41 @@ namespace Lab1.PersonLib;
 /// <summary>
 /// Person name validator class
 /// </summary>
-public class PersonNameValidator
+public static class PersonNameValidator
 {
-    /// <summary>
-    /// Constructor for class
-    /// </summary>
-    public PersonNameValidator()
-    {
-    }
-
-    /// //TODO: XML
-    /// <summary>
-    /// Constructor specifies 1st name and 2nd name
-    /// </summary>
-    /// <param name="firstName">First name</param>
-    /// <param name="secondName">Second name</param>
-    public PersonNameValidator(string firstName, string secondName)
-    {
-        FirstName = firstName;
-        SecondName = secondName;
-    }
-
-    /// <summary>
-    /// Constructor specifies class Person
-    /// </summary>
-    /// <param name="person"></param>
-    public PersonNameValidator(Person person)
-        : this(person.FirstName, person.SecondName)
-    {
-    }
-
-    /// <summary>
-    /// First name
-    /// </summary>
-    /// <value></value>
-    public string FirstName
-    {
-        get => _firstName;
-        set => _firstName = value;
-    }
-
-    /// <summary>
-    /// Second name
-    /// </summary>
-    /// <value></value>
-    public string SecondName
-    {
-        get => _secondName;
-        set => _secondName = value;
-    }
-
     /// <summary>
     /// Valid state
     /// </summary>
     /// <value></value>
-    public PersonNameValidState State
+    public static PersonNameValidState GetState(string name)
     {
-        get
+        Locale nameLocale = GetTextLocale(name);
+
+        if (nameLocale == Locale.Undefined)
         {
-            Locale firstNameLocale = GetTextLocale(FirstName);
-            Locale secondNameLocale = GetTextLocale(SecondName);
-
-            if (firstNameLocale == Locale.Undefined 
-                || firstNameLocale != secondNameLocale)
-            {
-                return PersonNameValidState.InvalidLocale;
-            }
-
-            if (!IsValidNameShape(FirstName) 
-                || !IsValidNameShape(SecondName))
-            {
-                return PersonNameValidState.InvalidShape;
-            }
-
-            return PersonNameValidState.Acceptable;
+            return PersonNameValidState.InvalidLocale;
         }
+
+        if (!IsValidCharCount(name))
+        {
+            return PersonNameValidState.InvalidCharCount;
+        }
+
+        if (!IsValidNameShape(name))
+        {
+            return PersonNameValidState.InvalidShape;
+        }
+
+        return PersonNameValidState.Acceptable;
     }
 
     /// <summary>
     /// Invalidate 1st name and 2nd name. DOESN'T fix alphabets
     /// </summary>
     /// <returns>Pair of 1st and 2nd names</returns>
-    public (string, string) FixUp()
+    public static string FixUp(string name)
     {
-        string firstName = FixNameShape(FirstName);
-        string secondName = FixNameShape(SecondName);
-
-        return (firstName, secondName);
+        return FixNameShape(name);
     }
 
     /// <summary>
@@ -101,7 +49,7 @@ public class PersonNameValidator
     /// </summary>
     /// <param name="name">Name</param>
     /// <returns>Fixed name</returns>
-    private string FixNameShape(string name)
+    private static string FixNameShape(string name)
     {
         name = name.Trim();
 
@@ -138,7 +86,7 @@ public class PersonNameValidator
     /// </summary>
     /// <param name="text"></param>
     /// <returns>Locale</returns>
-    private static Locale GetTextLocale(string text)
+    public static Locale GetTextLocale(string text)
     {
         if (string.IsNullOrEmpty(text))
         {
@@ -195,19 +143,13 @@ public class PersonNameValidator
     }
 
     /// <summary>
-    /// Check for valid name shape
+    /// Check for valid name characters count
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="name">Name</param>
     /// <returns>Is valid</returns>
-    private static bool IsValidNameShape(string name)
+    private static bool IsValidCharCount(string name)
     {
-        var words = name.Split();
-        int wordsCount  = words.Count();
-        
-        if (wordsCount == 0 || wordsCount > 2)
-        {
-            return false;
-        } 
+        var words = name.Trim().Split();
 
         foreach (var word in words)
         {
@@ -215,7 +157,28 @@ public class PersonNameValidator
             {
                 return false;
             }
+        }
 
+        return true;
+    }
+
+    /// <summary>
+    /// Check for valid name shape
+    /// </summary>
+    /// <param name="name">Name</param>
+    /// <returns>Is valid</returns>
+    private static bool IsValidNameShape(string name)
+    {
+        var words = name.Trim().Split();
+        int wordsCount  = words.Count();
+        
+        if (wordsCount == 0 || wordsCount > MaxWordsInName)
+        {
+            return false;
+        } 
+
+        foreach (var word in words)
+        {
             var noLowerChars = word.Substring(1).Where(
                 (c) => !Char.IsLower(c));
 
@@ -229,16 +192,8 @@ public class PersonNameValidator
         return true;
     }
 
-
+    /// <summary>
+    /// Max words count in name
+    /// </summary>
     public const int MaxWordsInName = 2;
-
-    /// <summary>
-    /// First name
-    /// </summary>
-    private string _firstName = String.Empty;
-
-    /// <summary>
-    /// Second name
-    /// </summary>
-    private string _secondName = String.Empty;
 }
