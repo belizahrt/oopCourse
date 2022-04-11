@@ -3,7 +3,7 @@ using PersonLib;
 using System;
 
 /// <summary>
-/// Command funciton type alias
+/// Command function type alias
 /// </summary>
 using CommandFunc = Func<PersonLib.PersonList, PersonLib.PersonList>;
 
@@ -94,7 +94,7 @@ public class Program
 
         return commandsMap;
     }
-    
+
     /// <summary>
     /// Add new person command
     /// </summary>
@@ -102,50 +102,74 @@ public class Program
     /// <returns>Modified person list</returns>
     private static PersonList AddCommand(PersonList persons)
     {
-        var newPerson = new Person();
+        var (firstName, firstNameLocale)
+            = ReadPersonName("Введите имя: ");
 
-        var (firstName, secondName) = ReadPersonName();
-        ushort age = ReadPersonAge();
-        PersonSex sex = ReadPersonSex();
+        var (secondName, secondNameLocale)
+            = ReadPersonName("Введите фамилию: ");
 
-        newPerson.FirstName = firstName;
-        newPerson.SecondName = secondName;
-        newPerson.Age = age;
-        newPerson.Sex = sex;
+        if (firstNameLocale != secondNameLocale
+            || firstNameLocale == Locale.Undefined)
+        {
+            throw new ApplicationException(_invalidNameExpectionMessage);
+        }
 
-        persons.Add(newPerson);
+        persons.Add(new Person()
+        {
+            FirstName = firstName,
+            SecondName = secondName,
+            Age = ReadPersonAge(),
+            Sex = ReadPersonSex()
+        });
 
         return persons;
     }
 
     /// <summary>
+    /// Invalid name exception message
+    /// </summary>
+    private const string _invalidNameExpectionMessage =
+        "Имя и фамилия должны состоять из символов\n" +
+        "одного алфавита (русского или английского)\n" +
+        "Не должны содержать специальных символов или цифр";
+
+    /// <summary>
+    /// Invalid name chars count exception message
+    /// </summary>
+    private const string _invalidCharCountExpectionMessage =
+        "В имени должно быть два и более символов";
+
+    /// <summary>
     /// Read person from console
     /// </summary>
     /// <returns>First and second names pair</returns>
-    private static (string, string) ReadPersonName()
+    private static (string, Locale) ReadPersonName(string consoleText)
     {
-        Console.Write("Введите имя: ");
-        string firstName = Console.ReadLine() ?? string.Empty;
+        Console.Write(consoleText);
+        string name = Console.ReadLine() ?? string.Empty;
 
-        Console.Write("Введите фамилию: ");
-        string secondName = Console.ReadLine() ?? string.Empty;
+        PersonNameValidState nameValidState
+            = PersonNameValidator.GetState(name);
 
-        var nameValidator = new PersonNameValidator(firstName, secondName);
-
-        if (nameValidator.State == PersonNameValidState.InvalidLocale)
+        if (nameValidState == PersonNameValidState.InvalidCharCount)
         {
-            throw new ApplicationException(
-                "Имя и фамилия должны состоять из символов\n" + 
-                "одного алфавита (русского или английского)\n" +
-                "Не должны содержать специальных символов или цифр");
+            throw new ApplicationException(_invalidCharCountExpectionMessage);
         }
-        else if (nameValidator.State == PersonNameValidState.InvalidShape)
-        {
-            var (fixedFirstname, fixedSecondName) = nameValidator.FixUp();
-            Console.Write("Вы имели ввиду " + fixedFirstname +
-                " " + fixedSecondName + "? [Д]а/[Н]ет: ");
 
-            string? answer = Console.ReadLine() ?? string.Empty; 
+        Locale nameLocale = PersonNameValidator
+            .GetTextLocale(name);
+
+        if (nameValidState == PersonNameValidState.InvalidLocale)
+        {
+            throw new ApplicationException(_invalidNameExpectionMessage);
+        }
+
+        if (nameValidState == PersonNameValidState.InvalidShape)
+        {
+            string fixedName = PersonNameValidator.FixUp(name);
+            Console.Write("Вы имели ввиду " + fixedName + "? [Д]а/[Н]ет: ");
+
+            string? answer = Console.ReadLine() ?? string.Empty;
 
             switch (answer.ToLower())
             {
@@ -153,14 +177,12 @@ public class Program
                 case "y":
                 case "д":
                 case "да":
-                default:
-                    firstName = fixedFirstname;
-                    secondName = fixedSecondName;
+                    name = fixedName;
                     break;
             }
         }
 
-        return (firstName, secondName);        
+        return (name.Trim(), nameLocale);        
     }
 
     /// <summary>
