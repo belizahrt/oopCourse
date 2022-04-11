@@ -28,43 +28,41 @@ public class PersonNameValidatorTest
         PersonNameValidState.InvalidShape;
 
     /// <summary>
+    /// Validation invalid char count state
+    /// </summary>
+    private const PersonNameValidState _invalidCharCount =
+        PersonNameValidState.InvalidCharCount;
+
+    /// <summary>
     /// Testcases for valid states
     /// </summary>
-    [TestCase("Yuri", "Kovalenko", ExpectedResult=_accept)]
-    [TestCase("Юрий", "Коваленко", ExpectedResult=_accept)]
-    [TestCase("Yuri Andreevich", "Kovalenko", ExpectedResult=_accept)]
-    [TestCase("Yuri", "Andreevich Kovalenko", ExpectedResult=_accept)]
-    [TestCase("Yuri Andreevich", "Csharp Kovalenko", ExpectedResult=_accept)]
-    [TestCase("Юрий", "Kovalenko", ExpectedResult=_invalidLocale)]
-    [TestCase("Yuri", "Коваленко", ExpectedResult=_invalidLocale)]
-    [TestCase("Юриi", "Kovalenko", ExpectedResult=_invalidLocale)]
-    [TestCase("Юрий28", "Kovalenko", ExpectedResult=_invalidLocale)]
-    [TestCase("Юрий", "Kovalenko - test", ExpectedResult=_invalidLocale)]
-    [TestCase("Юрий", "", ExpectedResult = _invalidLocale)]
-    [TestCase("Юрий", "     ", ExpectedResult = _invalidLocale)]
-    [TestCase("YuRi", "KovaLenko", ExpectedResult=_invalidShape)]
-    [TestCase("Юрий", "коваленко", ExpectedResult=_invalidShape)]
-    public PersonNameValidState ValidState(string firstName,
-        string secondName)
+    [TestCase("Yuri", ExpectedResult=_accept)]
+    [TestCase("Юрий", ExpectedResult=_accept)]
+    [TestCase("Yuri Andreevich", ExpectedResult=_accept)]
+    [TestCase("Юрiй", ExpectedResult=_invalidLocale)]
+    [TestCase("   Yuri", ExpectedResult=_invalidLocale)]
+    [TestCase("Юрий28", ExpectedResult=_invalidLocale)]
+    [TestCase("Kovalenko - test", ExpectedResult=_invalidLocale)]
+    [TestCase("", ExpectedResult = _invalidLocale)]
+    [TestCase("     ", ExpectedResult = _invalidLocale)]
+    [TestCase("YuRi", ExpectedResult=_invalidShape)]
+    [TestCase("коваленко", ExpectedResult=_invalidShape)]
+    [TestCase("Y", ExpectedResult = _invalidCharCount)]
+    [TestCase("Y", ExpectedResult = _invalidCharCount)]
+    public PersonNameValidState ValidState(string name)
     {
-        var validator = new PersonNameValidator(firstName, secondName);
-
-        return validator.State;
+        return PersonNameValidator.GetState(name);
     }
 
     /// <summary>
     /// Fix names test
     /// </summary>
-    [TestCase("Yuri", "Correct Surname", ExpectedResult="Yuri")]
-    [TestCase("yuri", "Correct Surname", ExpectedResult="Yuri")]
-    [TestCase("YuRi", "Correct Surname", ExpectedResult="Yuri")]
-    [TestCase("yUri andreeVich", "Correct Surname", 
-        ExpectedResult="Yuri Andreevich")]
-    public string FixUp(string firstName,
-        string secondName)
+    [TestCase("Yuri", ExpectedResult="Yuri")]
+    [TestCase("yuri", ExpectedResult="Yuri")]
+    [TestCase("YuRi", ExpectedResult="Yuri")]
+    [TestCase("yUri andreeVich", ExpectedResult="Yuri Andreevich")]
+    public string FixUp(string name)
     {
-        var validator = new PersonNameValidator(firstName, secondName);
-
-        return validator.FixUp().Item1;
+        return PersonNameValidator.FixUp(name);
     }   
 }
