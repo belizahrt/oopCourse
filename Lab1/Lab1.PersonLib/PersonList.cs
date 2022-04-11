@@ -152,7 +152,6 @@ public class PersonList
     /// </summary>
     private const int _defaultCapacity = 10;
 
-    //TODO: growthFactor
     /// <summary>
     /// Multiplier of capacity
     /// </summary>

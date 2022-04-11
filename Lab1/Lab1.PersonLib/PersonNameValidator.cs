@@ -122,7 +122,6 @@ public static class PersonNameValidator
     /// <returns>Locale of letter</returns>
     private static Locale GetLetterLocale(char letter)
     {
-        //TODO: RSDN
         // upper case unicode sets
         var localeRanges = new Dictionary<Locale, (uint, uint)>
         {

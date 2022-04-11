@@ -37,10 +37,7 @@ public class PersonListTest
         Assert.AreEqual(persons2.Size, 0);
     }
 
-    /// <summary>
-    /// Add person test
-    /// </summary>
-    [Test]
+    [Test, Description("Тест на добавление персоны в список")]
     public void AddPerson()
     {
         const int personsCount = 5;

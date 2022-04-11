@@ -1,6 +1,7 @@
 ﻿namespace Lab1.Client;
 using PersonLib;
 using System;
+using System.Text;
 
 /// <summary>
 /// Command function type alias
@@ -17,8 +18,9 @@ public class Program
     /// </summary>
     /// <returns></returns>
     static int Main()
-    { 
-        //TODO: RSDN
+    {
+        Console.OutputEncoding = Encoding.UTF8;
+        Console.InputEncoding = Encoding.UTF8;
         var commandsMap = MakeCommandsMap();
 
         PrintTitle();
