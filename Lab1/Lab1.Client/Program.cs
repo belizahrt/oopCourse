@@ -20,7 +20,8 @@ public class Program
     static int Main()
     {
         Console.OutputEncoding = Encoding.UTF8;
-        Console.InputEncoding = Encoding.UTF8;
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        Console.InputEncoding = Encoding.GetEncoding(1251);
         var commandsMap = MakeCommandsMap();
 
         PrintTitle();
